@@ -11,14 +11,14 @@ import {
 
 import mcpMiddleware from "./index.js";
 
-const mcpServer = new McpServer({
+const server = new McpServer({
   name: "test",
   version: "7.7.7",
 });
 const defaultContext = {} as unknown as Context & {
   jsonRPCMessages: JSONRPCMessage[];
 };
-const handler = middy().use(mcpMiddleware({ mcpServer }));
+const handler = middy().use(mcpMiddleware({ server }));
 
 describe("mcp middleware happy path", () => {
   test("should acknowledge ping message", async () => {

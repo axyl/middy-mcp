@@ -43,11 +43,11 @@ type RequestContext = Context & {
 };
 
 type MCPMiddlewareOptions = {
-  mcpServer: McpServer;
+  server: McpServer;
 };
 
 const mcp = ({
-  mcpServer,
+  server,
 }: MCPMiddlewareOptions): middy.MiddlewareObj<
   RequestEvent,
   ResponseEvent,
@@ -55,7 +55,7 @@ const mcp = ({
   RequestContext
 > => {
   const transport = new HttpServerTransport();
-  const serverReady = mcpServer.connect(transport);
+  const serverReady = server.connect(transport);
 
   return {
     before: async ({ event: { headers, body, isBase64Encoded }, context }) => {
