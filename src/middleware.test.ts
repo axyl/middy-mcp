@@ -51,7 +51,9 @@ describe("mcp middleware errors cases", () => {
       },
     } as unknown as APIGatewayProxyEvent;
 
-    expect(handler(event, defaultContext)).rejects.toThrowError(NotAcceptable);
+    await expect(handler(event, defaultContext)).rejects.toThrowError(
+      NotAcceptable
+    );
   });
 
   test("shoud throw a 415 when the content-type header is not application/json", async () => {
@@ -62,7 +64,7 @@ describe("mcp middleware errors cases", () => {
       },
     } as unknown as APIGatewayProxyEvent;
 
-    expect(handler(event, defaultContext)).rejects.toThrowError(
+    await expect(handler(event, defaultContext)).rejects.toThrowError(
       UnsupportedMediaType
     );
   });
@@ -75,7 +77,7 @@ describe("mcp middleware errors cases", () => {
       body: "",
     } as unknown as APIGatewayProxyEvent;
 
-    expect(handler(event, defaultContext)).rejects.toThrowError(
+    await expect(handler(event, defaultContext)).rejects.toThrowError(
       UnprocessableEntity
     );
   });
@@ -88,7 +90,7 @@ describe("mcp middleware errors cases", () => {
       body: JSON.stringify({ key: "value" }),
     } as unknown as APIGatewayProxyEvent;
 
-    expect(handler(event, defaultContext)).rejects.toThrowError(
+    await expect(handler(event, defaultContext)).rejects.toThrowError(
       UnprocessableEntity
     );
   });

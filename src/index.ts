@@ -102,7 +102,6 @@ const mcp = ({
 
         context.jsonRPCMessages = jsonRPCMessages;
       } catch (err) {
-        console.error(err);
         throw createMcpError(422, {
           code: -32000,
           message:
