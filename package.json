@@ -4,17 +4,32 @@
   "description": "Middy middleware for Model Context Protocol server",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
     "build": "tsc"
   },
   "type": "module",
-  "keywords": [],
+  "keywords": [
+    "mcp",
+    "model context protocol",
+    "middy",
+    "middleware",
+    "aws",
+    "lambda"
+  ],
   "author": "Frédéric Barthelet <frederic.barthelet@gmail.com>",
   "license": "MIT",
   "packageManager": "pnpm@10.5.2",
   "devDependencies": {
     "@middy/core": "^6.1.6",
+    "@modelcontextprotocol/sdk": "^1.8.0",
+    "@types/aws-lambda": "^8.10.148",
+    "@types/http-errors": "^2.0.4",
+    "@types/node": "^22.14.0",
     "typescript": "^5.8.2",
     "vitest": "^3.1.1"
+  },
+  "dependencies": {
+    "http-errors": "^2.0.0",
+    "zod": "^3.24.2"
   }
 }
