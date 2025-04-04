@@ -1,11 +1,28 @@
 {
   "name": "middy-mcp",
-  "version": "0.0.1",
   "description": "Middy middleware for Model Context Protocol server",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fredericbarthelet/middy-mcp.git"
+  },
   "scripts": {
     "test": "vitest",
-    "build": "tsc"
+    "build": "tsc",
+    "publish": "npm publish"
   },
   "type": "module",
   "keywords": [
