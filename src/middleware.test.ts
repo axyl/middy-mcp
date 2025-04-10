@@ -95,3 +95,43 @@ describe("mcp middleware errors cases", () => {
     );
   });
 });
+
+describe("compatibility with other middlewares", () => {
+  test("should allow response headers to be added whatever the order of definition of the middlewares", async () => {
+    const handlerWithOtherMiddlewares = middy()
+      .use({
+        after: (request) => {
+          const headers = { "1st-middleware": "value" };
+          request.response = {
+            ...request.response,
+            headers: { ...request.response?.headers, ...headers },
+          };
+        },
+      })
+      .use(mcpMiddleware({ server }))
+      .use({
+        after: (request) => {
+          const headers = { "3rd-middleware": "value" };
+          request.response = {
+            ...request.response,
+            headers: { ...request.response?.headers, ...headers },
+          };
+        },
+      });
+
+    const event = {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ jsonrpc: "2.0", method: "ping", id: 456 }),
+      isBase64Encoded: false,
+    } as unknown as APIGatewayProxyEvent;
+
+    const response = await handlerWithOtherMiddlewares(event, defaultContext);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.headers["1st-middleware"]).toBe("value");
+    expect(response.headers["3rd-middleware"]).toBe("value");
+  });
+});
