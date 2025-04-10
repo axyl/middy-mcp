@@ -109,17 +109,23 @@ const mcp = ({
         });
       }
     },
-    after: async ({ context: { jsonRPCMessages: requestMessages } }) => {
+    after: async (request) => {
       await serverReady;
-      const responseMessages = await transport.handleJSONRPCMessages(
-        requestMessages
-      );
-
-      if (responseMessages === undefined) {
-        return { statusCode: 202, body: "" };
+      if (request.response === null || typeof request.response === "string") {
+        request.response = { statusCode: 202, body: "" };
       }
 
-      return { statusCode: 200, body: JSON.stringify(responseMessages) };
+      const responseMessages = await transport.handleJSONRPCMessages(
+        request.context.jsonRPCMessages
+      );
+
+      if (responseMessages !== undefined) {
+        request.response = {
+          ...request.response,
+          statusCode: 200,
+          body: JSON.stringify(responseMessages),
+        };
+      }
     },
   };
 };
