@@ -1,6 +1,7 @@
 {
   "name": "middy-mcp",
   "description": "Middy middleware for Model Context Protocol server",
+  "version": "0.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
