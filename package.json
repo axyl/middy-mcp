@@ -22,8 +22,7 @@
   },
   "scripts": {
     "test": "vitest",
-    "build": "tsc",
-    "publish": "npm publish"
+    "build": "tsc"
   },
   "type": "module",
   "keywords": [
