@@ -61,6 +61,8 @@ jobs:
           cache: "pnpm"
       - name: Update version
         run: pnpm version ${{ github.event.release.tag_name }} --no-git-tag-version
+      - name: Build
+        run: pnpm run build
       - name: Publish
         run: pnpm publish --access public --no-git-checks
         env:
