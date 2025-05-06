@@ -58,6 +58,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: https://registry.npmjs.org
           cache: "pnpm"
       - name: Update version
         run: pnpm version ${{ github.event.release.tag_name }} --no-git-tag-version
