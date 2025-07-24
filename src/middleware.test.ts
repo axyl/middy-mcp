@@ -48,7 +48,6 @@ describe("mcp middleware happy path", () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }),
-      // body: JSON.stringify({"jsonrpc":"2.0",method:"ping", id: 12332123 }),
       isBase64Encoded: false,
     } as unknown as APIGatewayProxyEvent;
 
