@@ -50,17 +50,12 @@ export class HttpServerTransport implements Transport {
   ): Promise<JSONRPCMessage[] | JSONRPCMessage | undefined> => {
     this._startFreshSession();
 
-    jsonRPCMessages.map((message) => {
-      this.onmessage?.(message);
-    });
     const requestMessages = jsonRPCMessages.filter(isRequestMessage);
 
-    if (requestMessages.length === 0) {
-      return;
-    }
+
 
     // Create promises for each request and collect their responses
-    const responseMessages = await Promise.all(
+    const responseMessagesPromises = Promise.all(
       requestMessages.map(
         (requestMessage) =>
           new Promise<JSONRPCMessage>((resolve, reject) => {
@@ -68,6 +63,15 @@ export class HttpServerTransport implements Transport {
           })
       )
     );
+    jsonRPCMessages.map((message) => {
+      this.onmessage?.(message);
+    });
+
+    if (requestMessages.length === 0) {
+      return;
+    }
+    const responseMessages = await responseMessagesPromises
+
 
     return responseMessages.length > 1 ? responseMessages : responseMessages[0];
   };

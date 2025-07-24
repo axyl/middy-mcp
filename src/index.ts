@@ -111,7 +111,7 @@ const mcp = ({
     },
     after: async (request) => {
       await serverReady;
-      if (request.response === null || typeof request.response === "string") {
+      if (request.response === null || request.response === undefined || typeof request.response === "string") {
         request.response = { statusCode: 202, body: "" };
       }
 

@@ -40,6 +40,41 @@ describe("mcp middleware happy path", () => {
       id: 123,
     });
   });
+
+  test('should return a 202 when method is not is available', async () => {
+    const event = {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }),
+      // body: JSON.stringify({"jsonrpc":"2.0",method:"ping", id: 12332123 }),
+      isBase64Encoded: false,
+    } as unknown as APIGatewayProxyEvent;
+
+    const response = await handler(event, defaultContext);
+
+    expect(response).toBeDefined();
+    expect(response.body).toStrictEqual('');
+    expect(response.statusCode).toBe(202);
+  })
+
+  test('should return a 200 with method not found', async () => {
+    const event = {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized', id:123 }),
+      isBase64Encoded: false,
+    } as unknown as APIGatewayProxyEvent;
+
+    const response = await handler(event, defaultContext);
+
+    expect(response).toBeDefined();
+    expect(JSON.parse(response.body)).toStrictEqual({"jsonrpc":"2.0","id":123,"error":{"code":-32601,"message":"Method not found"}});
+    expect(response.statusCode).toBe(200);
+  })
 });
 
 describe("mcp middleware errors cases", () => {
